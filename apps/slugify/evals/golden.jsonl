@@ -1,0 +1,5 @@
+{"id": "basic", "input": {"text": "Hello, World!"}, "answer": "hello-world"}
+{"id": "accents", "input": {"text": "Crème Brûlée Recipe"}, "answer": "creme-brulee-recipe"}
+{"id": "symbols", "input": {"text": "10 Tips & Tricks (2026 edition)"}, "answer": "10-tips-tricks-2026-edition"}
+{"id": "spaces", "input": {"text": "   many     spaces   "}, "answer": "many-spaces"}
+{"id": "underscores", "input": {"text": "snake_case_title"}, "answer": "snake-case-title"}

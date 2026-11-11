@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-11T20:30:00+05:30",
+  "title": "Design System: Forge",
+  "extensions": {
+    "colorMeta": {
+      "rail-navy": {"role": "primary", "displayName": "Rail Navy", "canonical": "#0B2545"},
+      "signal-yellow": {"role": "primary", "displayName": "Signal Yellow", "canonical": "#FFC629"},
+      "pass-green": {"role": "secondary", "displayName": "Passed Green", "canonical": "#1E7A45"},
+      "fail-red": {"role": "secondary", "displayName": "Failed Red", "canonical": "#B3261E"},
+      "ramp-1": {"role": "neutral", "displayName": "The Ramp", "canonical": "#E8ECF1",
+                 "tonalRamp": ["#12161C", "#1C2129", "#2B323D", "#3B4450", "#56606E", "#7D8896", "#AEB8C6", "#D5DCE5", "#E8ECF1", "#F7F9FB"]}
+    },
+    "typographyMeta": {
+      "display": {"displayName": "Display", "purpose": "Page headings, with the platform-number tile."},
+      "label": {"displayName": "Label", "purpose": "Section headings and table headers in tracked caps."},
+      "body": {"displayName": "Body", "purpose": "All reading text, one size."},
+      "data": {"displayName": "Data", "purpose": "Board times, durations and examples."}
+    },
+    "shadows": [],
+    "motion": [
+      {"name": "flap-flip", "value": "0.55s cubic-bezier(.16,1,.3,1), 45ms stagger per letter", "purpose": "A status word flipping when its check changes state; off under reduced motion."}
+    ],
+    "breakpoints": [
+      {"name": "phone", "value": "640px"},
+      {"name": "stack", "value": "900px"}
+    ]
+  },
+  "components": [
+    {"name": "Primary Button", "kind": "button", "refersTo": "button-primary", "description": "The main action on a page.",
+     "html": "<button class=\"ds-btn\">Build it</button>",
+     "css": ".ds-btn{font:600 1rem/1 'Segoe UI',system-ui,sans-serif;padding:12px 20px;border-radius:6px;border:1px solid #0B2545;background:#0B2545;color:#F7F9FB;cursor:pointer}.ds-btn:hover{background:#3B4450;border-color:#3B4450}.ds-btn:focus-visible{outline:3px solid #0B2545;outline-offset:2px}"},
+    {"name": "Quiet Button", "kind": "button", "refersTo": "button-quiet", "description": "Secondary actions.",
+     "html": "<button class=\"ds-btn-quiet\">Run an improvement cycle now</button>",
+     "css": ".ds-btn-quiet{font:600 1rem/1 'Segoe UI',system-ui,sans-serif;padding:12px 20px;border-radius:6px;border:1px solid #AEB8C6;background:transparent;color:#1C2129;cursor:pointer}.ds-btn-quiet:hover{background:#F7F9FB}.ds-btn-quiet:focus-visible{outline:3px solid #0B2545;outline-offset:2px}"},
+    {"name": "Text Field", "kind": "input", "refersTo": "input", "description": "Idea, examples and app inputs.",
+     "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"2+3*4 -> 14\">",
+     "css": ".ds-input{font:1rem/1.5 'Segoe UI',system-ui,sans-serif;padding:10px 12px;border:1px solid #AEB8C6;border-radius:6px;background:#F7F9FB;color:#1C2129;width:100%}.ds-input::placeholder{color:#56606E}.ds-input:focus-visible{outline:3px solid #0B2545;outline-offset:2px}"},
+    {"name": "Rail Navigation", "kind": "nav", "description": "The navy rail with the current page underlined in signal yellow.",
+     "html": "<nav class=\"ds-rail\"><a class=\"ds-brand\" href=\"#\">FORGE</a><a aria-current=\"page\" href=\"#\">Build an app</a><a href=\"#\">My apps</a><a href=\"#\">Review changes</a></nav>",
+     "css": ".ds-rail{background:#0B2545;display:flex;gap:32px;padding:0 16px}.ds-rail a{color:#D5DCE5;font:600 1rem 'Segoe UI',system-ui,sans-serif;text-decoration:none;padding:19px 0 16px;border-bottom:3px solid transparent}.ds-rail a:hover{color:#F7F9FB}.ds-rail a[aria-current]{color:#F7F9FB;border-bottom-color:#FFC629}.ds-rail .ds-brand{color:#F7F9FB;font:700 1.125rem 'Barlow Condensed',Bahnschrift,'Arial Narrow',sans-serif;letter-spacing:.2em}"},
+    {"name": "Flap Status", "kind": "custom", "description": "A status word in split-flap tiles.",
+     "html": "<span class=\"ds-flaps\"><i>P</i><i>A</i><i>S</i><i>S</i><i>E</i><i>D</i></span>",
+     "css": ".ds-flaps{display:inline-flex;gap:3px;background:#1C2129;padding:8px;border-radius:8px}.ds-flaps i{font:700 1.125rem/1 'Barlow Condensed',Bahnschrift,'Arial Narrow',sans-serif;font-style:normal;display:inline-grid;place-items:center;width:1.3em;height:2em;background:#2B323D;color:#7FE0A4;border-radius:3px;position:relative;isolation:isolate}.ds-flaps i::after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:#1C2129;z-index:-1}"},
+    {"name": "Platform Number", "kind": "chip", "refersTo": "platform-number", "description": "A build's or app's number at the start of its heading.",
+     "html": "<span class=\"ds-plat\">8</span>",
+     "css": ".ds-plat{display:inline-grid;place-items:center;min-width:1.5em;padding:0 .18em;background:#FFC629;color:#12161C;border-radius:6px;font:700 2.25rem/1.25 'Barlow Condensed',Bahnschrift,'Arial Narrow',sans-serif}"}
+  ],
+  "narrative": {
+    "northStar": "The Departure Board",
+    "overview": "Every build is a departure. The screen people watch most, a build passing its checks, is a station board: one row per check, a time, a plain name, and a status word set in split-flap tiles that flips when it changes. Everything else in the dashboard is a calm, standard working screen that borrows only the board's type, colours and that one move.",
+    "keyCharacteristics": ["Status words in flap tiles, only on status, nowhere decorative.", "Numbers lead: builds and apps carry their number in a yellow platform tile.", "One tonal ramp feeds both light and dark themes.", "Flat colour throughout; no gradients, glows, grain or faked material.", "Works offline: one bundled signage font, system fonts for reading text, inline CSS, no external requests."],
+    "rules": [
+      {"name": "The One Ramp Rule", "body": "Every neutral comes from ramp-0 to ramp-9. A new grey is a new ramp step or it is not used.", "section": "colors"},
+      {"name": "The Signal Means Now Rule", "body": "Signal yellow marks the current page, a number or something in progress. It never decorates.", "section": "colors"},
+      {"name": "The One Size Rule", "body": "Body text is one size. Hierarchy comes from weight, tracked caps and space, not a ladder of sizes.", "section": "typography"},
+      {"name": "The Flat Rule", "body": "No gradients, glows, grain, bevels or offset shadows anywhere.", "section": "elevation"}
+    ],
+    "dos": ["Do use flap tiles only for status words.", "Do lead with the number: `Build 8`, the platform tile on headings and app names.", "Do take every neutral from the ramp, in both themes.", "Do keep plain words first and put logs, test output, scans and diffs behind a \"Technical record\" disclosure."],
+    "donts": ["Don't use a black screen with green monospace text, or any terminal styling.", "Don't use gradients, glows, sparkle icons or glass.", "Don't put a small label above a heading; the heading carries its own weight.", "Don't load fonts, scripts or images from the internet; anything new is bundled and served locally, so the dashboard works offline."]
+  }
+}

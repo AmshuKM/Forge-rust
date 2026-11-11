@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "forge": {
+      "command": "cargo",
+      "args": ["run", "--release", "--quiet", "--", "mcp"]
+    }
+  }
+}

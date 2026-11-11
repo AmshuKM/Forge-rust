@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font-size",
+        "value": "1.75rem",
+        "createdAt": "2026-11-11T18:43:13.695Z",
+        "reason": "Claude: the phone step of the display size, recorded in DESIGN.md Typography > Hierarchy; the token schema holds one size per role"
+      }
+    ]
+  }
+}

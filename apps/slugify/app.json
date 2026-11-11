@@ -1,0 +1,4 @@
+{
+  "description": "Turn a title into a URL slug. Uses no AI model.",
+  "fields": [["text", "Title to turn into a slug", "text"]]
+}

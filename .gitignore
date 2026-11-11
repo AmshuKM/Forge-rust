@@ -1,0 +1,12 @@
+/target/
+.forge/
+config/local.toml
+.claude/settings.local.json
+# each app and the helper library build on their own; their lock files and build folders are local
+apps/*/target/
+apps/*/Cargo.lock
+sdk/target/
+sdk/Cargo.lock
+# Apps built on this computer and kept out of the shared repo; delete a line to share that app.
+apps/wordcount/
+apps/convert_whole_number/

@@ -1,0 +1,4 @@
+{
+  "description": "Summarise a document, or answer a question about it.",
+  "fields": [["document", "Document", "textarea"], ["question", "Question (leave empty for a summary)", "text"]]
+}

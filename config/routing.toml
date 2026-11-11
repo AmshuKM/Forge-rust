@@ -1,0 +1,52 @@
+# Shared settings: the same on every computer, and changed through Git.
+# Which models YOU have lives in config/local.toml, written by: forge setup
+# The improvement engine may only PROPOSE changes to the [tasks] lines; you approve them.
+
+[budget]
+daily_usd = 0.50        # hard cap on paid (cloud) model spend per day; local models cost nothing
+daily_proposals = 3     # most change proposals the unattended improvement engine may open per day
+max_attempts = 3        # tries per proposal before it stops and asks you
+timeout_s = 240         # per model call; the first call is slow while a local model loads
+context_chars = 24000   # longest single piece of text placed into a prompt
+
+[improve]
+interval_hours = 24     # how often the improvement engine runs on its own
+
+[gates]
+p95_ms = 180000         # slowest acceptable request on the golden cases (includes one cold model load)
+
+[release]
+canary_percent = 50     # share of requests sent to an approved change during its trial
+canary_requests = 6     # trial requests needed before the change is kept or discarded
+
+[sandbox]
+image = "rust:1-slim"   # where unapproved apps are compiled and run, with no network
+memory = "3g"           # also covers the in-memory build folder: builds that exceed it fail
+scans = [
+  ["zricethezav/gitleaks:latest", "detect", "--no-git", "--source", "/src/apps"],
+  ["semgrep/semgrep:latest", "semgrep", "scan", "--error", "--config", "p/rust", "/src/apps"],
+  ["aquasec/trivy:latest", "fs", "--exit-code", "1", "--severity", "HIGH,CRITICAL", "/src/apps"],
+]
+
+# Apps that call a model, and the kinds of work they ask for. Apps that use no model need no entry.
+[apps.docqa]
+tasks = ["summarize", "answer"]
+
+# Which role handles which kind of work: the first that answers wins, the rest are fallbacks.
+# main, think, fast and big are roles; setup decides which of your models fills each one.
+[tasks]
+summarize = ["main", "big"]
+answer = ["main", "big"]
+judge = ["think", "big"]
+develop = ["think", "big"]
+
+# A pay-per-use cloud model (no subscription): put these lines in config/local.toml, then add "cloud"
+# to any [tasks] line above. The key is read from the environment, never logged, never given to the sandbox.
+# [endpoints.cloud]
+# base = "https://api.openai.com/v1"
+# key_env = "FORGE_CLOUD_KEY"
+# [models.cloud]
+# endpoint = "cloud"
+# model = "your-model-id"
+# usd_in = 1.0     # price per million input tokens
+# usd_out = 4.0    # price per million output tokens
