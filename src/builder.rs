@@ -12,8 +12,12 @@ use std::sync::atomic::{AtomicBool, Ordering};
 
 static BUILDING: AtomicBool = AtomicBool::new(false); // one build at a time: they compete for the GPU and the sandbox
 const CLAUDE_TOOLS: &str = "mcp__forge__guide,mcp__forge__read_file,mcp__forge__write_file,mcp__forge__check_change";
-const STOP_WORDS: [&str; 20] = ["a", "an", "the", "app", "that", "which", "make", "build", "create", "me", "for", "to", "and",
-                                "with", "i", "want", "please", "can", "you", "of"];
+const STOP_WORDS: [&str; 30] = ["a", "an", "the", "app", "that", "which", "make", "build", "create", "me", "for", "to", "and",
+                                "with", "i", "want", "please", "can", "you", "of", "my", "is", "it", "this", "some", "any",
+                                "tool", "program", "simple", "given"];
+// Words that start the details ("count words IN a text"): a name with two words already ends before one.
+const JOINERS: [&str; 18] = ["in", "on", "at", "by", "from", "into", "between", "using", "as", "when", "if", "so", "then", "or",
+                             "but", "per", "via", "where"];
 
 struct Done;
 
@@ -38,7 +42,19 @@ pub fn name_for(idea: &str, wanted: &str) -> R<String> {
         return Ok(name);
     }
     let lower = idea.to_lowercase();
-    let words: Vec<&str> = lower.split(|c: char| !c.is_ascii_alphanumeric()).filter(|w| w.starts_with(|c: char| c.is_ascii_lowercase()) && !STOP_WORDS.contains(w)).take(3).collect();
+    let mut words: Vec<&str> = Vec::new();
+    for w in lower.split(|c: char| !c.is_ascii_alphanumeric()).filter(|w| w.starts_with(|c: char| c.is_ascii_lowercase())) {
+        if JOINERS.contains(&w) {
+            if words.len() >= 2 {
+                break;
+            }
+        } else if !STOP_WORDS.contains(&w) {
+            words.push(w);
+            if words.len() == 3 {
+                break;
+            }
+        }
+    }
     let mut base = head(words.first().copied().unwrap_or("app"), 24);
     for w in words.iter().skip(1) {
         // whole words only, so names never end mid-word

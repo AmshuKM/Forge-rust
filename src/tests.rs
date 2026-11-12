@@ -277,6 +277,9 @@ fn app_names_come_from_the_idea_and_never_clash() {
     }
     assert_eq!(builder::name_for("Make me a scientific calculator app", "").unwrap(), "scientific_calculator");
     assert_eq!(builder::name_for("Convert temperatures between Celsius and Fahrenheit", "").unwrap(), "convert_temperatures");
+    assert_eq!(builder::name_for("Count the words in a piece of text", "").unwrap(), "count_words");
+    assert_eq!(builder::name_for("A simple tool to convert units", "").unwrap(), "convert_units");
+    assert_eq!(builder::name_for("In a sentence, reverse every word", "").unwrap(), "sentence_reverse_every");
     assert_eq!(builder::name_for("Slugify", "").unwrap(), "slugify_2"); // taken
     assert!(builder::name_for("anything", "slugify").unwrap_err().contains("already exists"));
     assert!(builder::name_for("anything", "Bad Name!").is_err());
