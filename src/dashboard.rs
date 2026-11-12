@@ -421,7 +421,7 @@ fn get(path: &str, query: &Form) -> R<Reply> {
             let seen = query.get("seen").filter(|s| s.chars().all(|c| c.is_ascii_alphabetic())).cloned().unwrap_or_default();
             match query.get("id").and_then(|id| id.parse::<i64>().ok()) {
                 Some(pid) => Reply::Html(200, build_page(pid, &seen)?),
-                None => Reply::Html(404, page("Not found", "<p>No such build.</p>", "/", None, None)),
+                None => Reply::Html(200, build_home(&Form::new(), "")?), // no build number: the form that starts one
             }
         }
         "/review" => Reply::Html(200, review_page()?),
