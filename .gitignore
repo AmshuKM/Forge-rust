@@ -10,3 +10,4 @@ sdk/Cargo.lock
 # Apps built on this computer and kept out of the shared repo; delete a line to share that app.
 apps/wordcount/
 apps/convert_whole_number/
+apps/reverse_words/

@@ -298,6 +298,22 @@ fn failing_trial_is_discarded_and_remembered() {
     assert_eq!(store::recall("rolled_back", 3).len(), 1);
 }
 
+/// The real sandbox: compiles, tests, scores and scans the bundled sample app inside Docker.
+/// Run with `cargo test -- --ignored`. It needs Docker and downloads the sandbox and scanner images.
+#[test]
+#[ignore = "needs Docker"]
+fn sandbox_compiles_tests_scores_and_scans_a_real_app() {
+    let _e = env();
+    let repo = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    assert!(crate::sandbox::available(), "Docker is not running");
+    let (ok, out) = crate::sandbox::tests(&repo, "slugify");
+    assert!(ok, "unit tests failed in the sandbox:\n{out}");
+    let card = crate::sandbox::evals(&repo, "slugify").expect("golden cases ran in the sandbox");
+    assert_eq!(card["success"], json!(1.0), "{card}");
+    let (ok, out) = crate::sandbox::scans(&repo);
+    assert!(ok, "a security scan failed:\n{out}");
+}
+
 #[test]
 fn mcp_lists_tools_and_turns_failures_into_tool_errors() {
     let _e = env();

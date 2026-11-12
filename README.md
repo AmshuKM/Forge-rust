@@ -105,6 +105,14 @@ cargo run --release -- improve
 cargo test
 ```
 
+To also run the real sandbox test, which needs Docker and compiles, tests, scores and scans a sample app inside it:
+
+```bash
+cargo test -- --ignored
+```
+
+Every push is checked automatically on Linux, macOS and Windows, with the sandbox test on Linux: see the **Actions** tab.
+
 ## The dashboard's design
 
 The dashboard is designed as a railway departure board. The rules live in [DESIGN.md](DESIGN.md) and [PRODUCT.md](PRODUCT.md). When you open this folder in Claude Code, it offers the [Impeccable](https://github.com/pbakaus/impeccable) design plugin, set up in [.claude/settings.json](.claude/settings.json); Forge works without it.

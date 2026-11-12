@@ -74,3 +74,4 @@ details{margin:4px 0}summary{cursor:pointer;font-weight:600;padding:8px 0}
 @media (max-width:640px){h1{font-size:1.75rem}main{padding-top:28px}.rail{column-gap:16px}.rail .brand{width:100%;padding-top:16px}.rail a{padding:12px 0 10px;font-size:.875rem}
 .board .tc,.board .dur,.board th.dc{display:none}.board td,.board th{padding:14px 12px}.flaps i{width:1.15em;height:1.7em;font-size:.875rem}}
 @media (max-width:400px){.rail{column-gap:12px}}
+@media (max-width:640px){.tw table:not(.board):not(.examples){min-width:36rem}}

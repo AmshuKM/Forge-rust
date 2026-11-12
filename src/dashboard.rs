@@ -200,12 +200,12 @@ fn apps_page() -> R<String> {
         let used = store::scalar("select count(*) from traces where app=? and version!='eval'", params![a])? as i64;
         let released = store::q("select id, ts from proposals where app=? and status='shipped' order by id", params![a])?;
         let number = released.last().map(|r| format!("<span class=\"plat\">{}</span>", ri(r, "id"))).unwrap_or_default();
-        let built = released.first().map(|r| when(rf(r, "ts"))).unwrap_or_else(|| "with Forge".to_string());
+        let built = released.last().map(|r| when(rf(r, "ts"))).unwrap_or_else(|| "none yet".to_string());
         let note = runtime::manifest(&root(), &a)["description"].as_str().unwrap_or("No description.").to_string();
         rows.push_str(&format!("<tr><td><a href=\"/use?app={a}\"><strong>{number}{a}</strong></a></td><td>{}</td><td>{built}</td><td>{used}</td></tr>", esc(&note)));
     }
     let body = if rows.is_empty() { "<p>No apps yet. <a href=\"/\">Build one</a>.</p>".to_string() } else {
-        format!("<table><tr><th scope=\"col\">App</th><th scope=\"col\">What it does</th><th scope=\"col\">Built</th><th scope=\"col\">Used</th></tr>{rows}</table>")
+        format!("<table><tr><th scope=\"col\">App</th><th scope=\"col\">What it does</th><th scope=\"col\">Last change</th><th scope=\"col\">Used</th></tr>{rows}</table>")
     };
     Ok(page("My apps", &body, "/apps", None, None))
 }
@@ -322,8 +322,11 @@ fn health_page() -> R<String> {
     } else { format!("<p>Models: {}.</p>", roles.join(", ")) });
     body.push_str(&format!("<p>Sandbox (Docker): {}</p>", if sandbox::available() { "<span class=ok>running</span>" }
         else { "<span class=bad>not running</span>. Nothing can be built or fixed until it is; released apps still work." }));
-    body.push_str(&format!("<p>Improvement engine: {}. Last run {}: {}</p>", if kill { "<span class=bad>stopped by you</span>" } else { "on" },
-        when(last["ts"].as_f64().unwrap_or(0.0)), esc(last["result"].as_str().unwrap_or("not run yet"))));
+    let ran = match last["result"].as_str() {
+        Some(result) if result != "not run yet" => format!("Last run {}: {}", when(last["ts"].as_f64().unwrap_or(0.0)), esc(result)),
+        _ => "It has not run from this page yet.".to_string(),
+    };
+    body.push_str(&format!("<p>Improvement engine: {}. {ran}</p>", if kill { "<span class=bad>stopped by you</span>" } else { "on" }));
     body.push_str(&form("/run", "<button class=\"quiet\">Run an improvement cycle now</button>", "inline"));
     body.push_str(&form("/kill", &format!("{}{}", hidden("on", if kill { "0" } else { "1" }),
         if kill { "<button class=\"quiet\">Turn the improvement engine back on</button>" } else { "<button class=\"danger\">Stop all self-improvement</button>" }), "inline"));
