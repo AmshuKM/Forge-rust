@@ -143,6 +143,9 @@ fn input_errors_are_shown_crashes_are_fingerprinted_and_endless_apps_stop() {
     let fps: Vec<Value> = store::q("select fingerprint from traces order by ts", params![]).unwrap().iter().map(|r| r["fingerprint"].clone()).collect();
     assert_eq!(fps[0], Value::Null); // the person's mistake, not a fault
     assert_eq!(fps[1], "Panic:t:src/main.rs:12");
+    runtime::handle("t", &json!({}), &e.dir, "stable", true, &mut Fake(|_: &Value| Err("Crash: thread 'main' panicked at src\\main.rs:12:5:\nboom".to_string())));
+    let windows = store::q("select fingerprint from traces order by ts desc limit 1", params![]).unwrap();
+    assert_eq!(windows[0]["fingerprint"], "Panic:t:src/main.rs:12"); // a Windows path gives the same fingerprint
     assert_eq!(fps[2], "BadStep:t"); // an app that never finishes is stopped, not looped forever
     assert_eq!(fps[3], Value::Null);
 }

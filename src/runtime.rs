@@ -125,7 +125,7 @@ fn fingerprint(app: &str, err: &str) -> String {
         return format!("RouterError:{app}");
     }
     if let Some(c) = Regex::new(r"panicked at ([^:\s]+:\d+)").expect("valid pattern").captures(err) {
-        return format!("Panic:{app}:{}", &c[1]);
+        return format!("Panic:{app}:{}", c[1].replace('\\', "/")); // the same crash must read the same on Windows and in the sandbox
     }
     let kind = err.split(':').next().unwrap_or("");
     format!("{}:{app}", if ["Timeout", "BadStep"].contains(&kind) { kind } else { "Crash" })

@@ -37,6 +37,8 @@ cargo run --release -- serve
 
 Open http://127.0.0.1:8765. The first start compiles Forge (a few minutes) and looks for your models.
 
+If another program already uses port 8765, Forge says so and stops. Pick another port by setting `FORGE_PORT`, for example `FORGE_PORT=8766`, before starting it.
+
 ## Build an app
 
 On the **Build an app** page:
