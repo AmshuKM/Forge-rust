@@ -2,6 +2,8 @@
 
 Type an app idea. Get a working app, written in Rust.
 
+![The Forge build page: a departure board showing each check for a new Rust app flipping from WAIT to PASSED](docs/screenshot.png)
+
 ```mermaid
 flowchart LR
   I["Your idea, plus examples it must get right"] --> F["Forge: builds, compiles and tests in a sandbox, scans, checks your examples"]
